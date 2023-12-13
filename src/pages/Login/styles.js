@@ -70,27 +70,6 @@ export const Input = styled.input`
   }
 `
 
-export const Button = styled.button`
-  width: 11.4256rem;
-  height: 2.2581rem;
-  background: #9758a6;
-  border: none;
-  cursor: pointer;
-  border-radius: 20px;
-  color: #eee;
-  text-align: center;
-  font-size: 1rem;
-  font-weight: 400;
-
-  &:hover {
-    opacity: 0.8;
-  }
-
-  &:active {
-    opacity: 0.5;
-  }
-`
-
 export const SignUpLink = styled.p`
   margin-top: 28px;
   text-decoration: underline;

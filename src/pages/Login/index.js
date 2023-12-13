@@ -5,13 +5,14 @@ import * as yup from 'yup'
 
 import LoginImg from '../../assets/login/burguers.png'
 import Logo from '../../assets/login/codeburguer logo.svg'
+import ContainerButton from '../../components/Button/index'
+import { ApiService } from '../../services/apiService'
 import {
   Container,
   ContainerItens,
   LoginImage,
   Label,
   Input,
-  Button,
   SignUpLink,
   FormDiv,
   ErrorMessage
@@ -39,7 +40,14 @@ function Login() {
     resolver: yupResolver(schema)
   })
 
-  const onSubmit = data => console.log(data)
+  const onSubmit = async clientData => {
+    const response = await ApiService.post('sessions', {
+      email: clientData.email,
+      password: clientData.password
+    })
+
+    console.log(response)
+  }
 
   return (
     <Container>
@@ -65,7 +73,7 @@ function Login() {
             />
             <ErrorMessage>{errors.password?.message}</ErrorMessage>
 
-            <Button type="submit">Login</Button>
+            <ContainerButton type="submit">Login</ContainerButton>
           </form>
           <SignUpLink>
             <a>Cadastre-se</a>
