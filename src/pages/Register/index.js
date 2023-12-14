@@ -1,6 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
 import * as yup from 'yup'
 
 import Logo from '../../assets/login/codeburguer logo.svg'
@@ -46,13 +47,46 @@ function Register() {
   })
 
   const onSubmit = async clientData => {
-    const response = await ApiService.post('users', {
-      name: clientData.name,
-      email: clientData.email,
-      password: clientData.password
+    const loadingToastId = toast.loading('Carregando as informações...', {
+      autoClose: false
     })
 
-    console.log(response)
+    try {
+      const { status } = await ApiService.post(
+        'users',
+        {
+          name: clientData.name,
+          email: clientData.email,
+          password: clientData.password
+        },
+        { validateStatus: () => true }
+      )
+
+      if (status === 200 || status === 201) {
+        toast.update(loadingToastId, {
+          render: 'Usuário Cadastrado com Sucesso!',
+          type: 'success',
+          autoClose: true,
+          isLoading: false
+        })
+      } else if (status === 409) {
+        toast.update(loadingToastId, {
+          render: 'Email já cadastrado!',
+          type: 'error',
+          autoClose: true,
+          isLoading: false
+        })
+      } else {
+        throw new Error()
+      }
+    } catch (err) {
+      toast.update(loadingToastId, {
+        render: 'Erro Inesperado! Tente novamente',
+        type: 'error',
+        autoClose: true,
+        isLoading: false
+      })
+    }
   }
 
   return (

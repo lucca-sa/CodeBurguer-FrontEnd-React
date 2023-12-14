@@ -1,6 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
 import * as yup from 'yup'
 
 import LoginImg from '../../assets/login/burguers.png'
@@ -41,12 +42,45 @@ function Login() {
   })
 
   const onSubmit = async clientData => {
-    const response = await ApiService.post('sessions', {
-      email: clientData.email,
-      password: clientData.password
+    const loadingToastId = toast.loading('Carregando as informações...', {
+      autoClose: false
     })
 
-    console.log(response)
+    try {
+      const { status } = await ApiService.post(
+        'sessions',
+        {
+          email: clientData.email,
+          password: clientData.password
+        },
+        { validateStatus: () => true }
+      )
+
+      if (status === 200) {
+        toast.update(loadingToastId, {
+          render: 'Usuário logado com sucesso!',
+          type: 'success',
+          autoClose: true,
+          isLoading: false
+        })
+      } else if (status === 401) {
+        toast.update(loadingToastId, {
+          render: 'Verifique o email e senha!',
+          type: 'error',
+          autoClose: true,
+          isLoading: false
+        })
+      } else {
+        throw new Error()
+      }
+    } catch (err) {
+      toast.update(loadingToastId, {
+        render: 'Erro Inesperado! Tente novamente',
+        type: 'error',
+        autoClose: true,
+        isLoading: false
+      })
+    }
   }
 
   return (
