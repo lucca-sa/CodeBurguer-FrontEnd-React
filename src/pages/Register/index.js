@@ -1,6 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import * as yup from 'yup'
 
@@ -11,12 +12,12 @@ import { ApiService } from '../../services/apiService'
 import {
   Container,
   ContainerItens,
-  RegisterImage,
-  Label,
-  Input,
-  LoginLink,
+  ErrorMessage,
   FormDiv,
-  ErrorMessage
+  Input,
+  Label,
+  LoginLink,
+  RegisterImage
 } from './styles'
 
 const schema = yup
@@ -134,7 +135,9 @@ function Register() {
             <ContainerButton $type="submit">Register</ContainerButton>
           </form>
           <LoginLink>
-            <a>Login</a>
+            <Link style={{ color: 'white' }} to="/login">
+              Login
+            </Link>
           </LoginLink>
         </FormDiv>
       </ContainerItens>

@@ -1,22 +1,24 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import * as yup from 'yup'
 
 import LoginImg from '../../assets/login/burguers.png'
 import Logo from '../../assets/login/codeburguer logo.svg'
 import ContainerButton from '../../components/Button/index'
+import { useUser } from '../../hooks/UserContext'
 import { ApiService } from '../../services/apiService'
 import {
   Container,
   ContainerItens,
-  LoginImage,
-  Label,
-  Input,
-  SignUpLink,
+  ErrorMessage,
   FormDiv,
-  ErrorMessage
+  Input,
+  Label,
+  LoginImage,
+  SignUpLink
 } from './styles'
 
 const schema = yup
@@ -33,6 +35,8 @@ const schema = yup
   .required()
 
 function Login() {
+  const { putUserData } = useUser()
+
   const {
     register,
     handleSubmit,
@@ -47,7 +51,7 @@ function Login() {
     })
 
     try {
-      const { status } = await ApiService.post(
+      const { status, data } = await ApiService.post(
         'sessions',
         {
           email: clientData.email,
@@ -63,6 +67,7 @@ function Login() {
           autoClose: true,
           isLoading: false
         })
+        putUserData(data)
       } else if (status === 401) {
         toast.update(loadingToastId, {
           render: 'Verifique o email e senha!',
@@ -110,7 +115,9 @@ function Login() {
             <ContainerButton $type="submit">Login</ContainerButton>
           </form>
           <SignUpLink>
-            <a>Cadastre-se</a>
+            <Link style={{ color: 'white' }} to="/cadastro">
+              Cadastre-se
+            </Link>
           </SignUpLink>
         </FormDiv>
       </ContainerItens>
