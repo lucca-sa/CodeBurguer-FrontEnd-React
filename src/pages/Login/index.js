@@ -1,7 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import * as yup from 'yup'
 
@@ -9,7 +9,7 @@ import LoginImg from '../../assets/login/burguers.png'
 import Logo from '../../assets/login/codeburguer logo.svg'
 import ContainerButton from '../../components/Button/index'
 import { useUser } from '../../hooks/UserContext'
-import { ApiService } from '../../services/apiService'
+import ApiService from '../../services/apiService'
 import {
   Container,
   ContainerItens,
@@ -35,6 +35,7 @@ const schema = yup
   .required()
 
 function Login() {
+  const history = useHistory()
   const { putUserData } = useUser()
 
   const {
@@ -68,6 +69,9 @@ function Login() {
           isLoading: false
         })
         putUserData(data)
+        setInterval(() => {
+          history.push('/')
+        }, 1000)
       } else if (status === 401) {
         toast.update(loadingToastId, {
           render: 'Verifique o email e senha!',

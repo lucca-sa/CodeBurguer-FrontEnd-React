@@ -8,7 +8,7 @@ import * as yup from 'yup'
 import Logo from '../../assets/login/codeburguer logo.svg'
 import RegisterImg from '../../assets/register/burgos.png'
 import ContainerButton from '../../components/Button/index'
-import { ApiService } from '../../services/apiService'
+import ApiService from '../../services/apiService'
 import {
   Container,
   ContainerItens,
