@@ -7,7 +7,7 @@ import * as yup from 'yup'
 
 import LoginImg from '../../assets/login/burguers.png'
 import Logo from '../../assets/login/codeburguer logo.svg'
-import ContainerButton from '../../components/Button/index'
+import { Button } from '../../components'
 import { useUser } from '../../hooks/UserContext'
 import ApiService from '../../services/apiService'
 import {
@@ -34,7 +34,7 @@ const schema = yup
   })
   .required()
 
-function Login() {
+export function Login() {
   const history = useHistory()
   const { putUserData } = useUser()
 
@@ -116,7 +116,7 @@ function Login() {
             />
             <ErrorMessage>{errors.password?.message}</ErrorMessage>
 
-            <ContainerButton $type="submit">Login</ContainerButton>
+            <Button $type="submit">Login</Button>
           </form>
           <SignUpLink>
             <Link style={{ color: 'white' }} to="/cadastro">
@@ -128,5 +128,3 @@ function Login() {
     </Container>
   )
 }
-
-export default Login

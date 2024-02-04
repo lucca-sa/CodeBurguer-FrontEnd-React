@@ -7,7 +7,7 @@ import * as yup from 'yup'
 
 import Logo from '../../assets/login/codeburguer logo.svg'
 import RegisterImg from '../../assets/register/burgos.png'
-import ContainerButton from '../../components/Button/index'
+import { Button } from '../../components'
 import ApiService from '../../services/apiService'
 import {
   Container,
@@ -38,7 +38,7 @@ const schema = yup
   })
   .required()
 
-function Register() {
+export function Register() {
   const {
     register,
     handleSubmit,
@@ -132,7 +132,7 @@ function Register() {
             />
             <ErrorMessage>{errors.confirmpassword?.message}</ErrorMessage>
 
-            <ContainerButton $type="submit">Register</ContainerButton>
+            <Button $type="submit">Register</Button>
           </form>
           <LoginLink>
             <Link style={{ color: 'white' }} to="/login">
@@ -144,5 +144,3 @@ function Register() {
     </Container>
   )
 }
-
-export default Register

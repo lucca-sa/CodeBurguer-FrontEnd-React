@@ -6,11 +6,11 @@ import ApiService from '../../services/apiService'
 import formatCurrency from '../../utils/formatCurrency'
 import { Button, Container, ContainerItems, Image, OfferImage } from './styles'
 
-function OfferCarousel() {
+export function OfferCarousel() {
   const [products, setProducts] = useState([])
 
   useEffect(() => {
-    async function loadproducts() {
+    async function loadProducts() {
       const { data } = await ApiService.get('products')
 
       const productsOnOffer = data
@@ -20,7 +20,7 @@ function OfferCarousel() {
         })
       setProducts(productsOnOffer)
     }
-    loadproducts()
+    loadProducts()
   }, [])
 
   const breakPoints = [
@@ -53,5 +53,3 @@ function OfferCarousel() {
     </Container>
   )
 }
-
-export default OfferCarousel
