@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+export * from './Cart'
 export * from './Home'
 export * from './Login'
 export * from './Products'
