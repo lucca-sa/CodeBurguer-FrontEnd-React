@@ -26,23 +26,5 @@ export const ProductName = styled.p`
 
 export const ProductPrice = styled.p`
   font-weight: 600;
-`
-
-export const Button = styled.button`
-  cursor: pointer;
-  width: 150px;
-  height: 35px;
-  background-color: #9758a6;
-  border: none;
-  color: #ffffff;
-  border-radius: 20px;
-  margin-top: 10px;
-
-  &:hover {
-    opacity: 0.8;
-  }
-
-  &:active {
-    opacity: 0.5;
-  }
+  margin-bottom: 10px;
 `
