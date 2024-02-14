@@ -7,7 +7,7 @@ export const Container = styled.div`
   color: #fff;
 `
 
-export const LoginImage = styled.img`
+export const RegisterImage = styled.img`
   height: 100%;
   width: 58%;
 
@@ -70,7 +70,7 @@ export const Input = styled.input`
   }
 `
 
-export const SignUpLink = styled.p`
+export const LoginLink = styled.p`
   margin-top: 28px;
   text-decoration: underline;
   cursor: pointer;

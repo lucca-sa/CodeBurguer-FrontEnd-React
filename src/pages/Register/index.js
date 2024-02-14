@@ -1,14 +1,13 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import { Link, useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import * as yup from 'yup'
 
-import LoginImg from '../../assets/login/burguers.png'
 import Logo from '../../assets/login/codeburguer logo.svg'
+import RegisterImg from '../../assets/register/burgos.png'
 import { Button } from '../../components'
-import { useUser } from '../../hooks/UserContext'
 import ApiService from '../../services/apiService'
 import {
   Container,
@@ -17,12 +16,13 @@ import {
   FormDiv,
   Input,
   Label,
-  LoginImage,
-  SignUpLink
+  LoginLink,
+  RegisterImage
 } from './styles'
 
 const schema = yup
   .object({
+    name: yup.string().required('O nome é obrigatório.'),
     email: yup
       .string()
       .email('Digite um e-mail valido.')
@@ -30,14 +30,15 @@ const schema = yup
     password: yup
       .string()
       .required('A senha é obrigatória')
-      .min(6, 'A senha deve ter pelo menos 6 digitos')
+      .min(6, 'A senha deve ter pelo menos 6 digitos'),
+    confirmpassword: yup
+      .string()
+      .required('A senha é obrigatória')
+      .oneOf([yup.ref('password')], 'As senhas devem ser iguais')
   })
   .required()
 
-export function Login() {
-  const history = useHistory()
-  const { putUserData } = useUser()
-
+export function Register() {
   const {
     register,
     handleSubmit,
@@ -52,29 +53,26 @@ export function Login() {
     })
 
     try {
-      const { status, data } = await ApiService.post(
-        'sessions',
+      const { status } = await ApiService.post(
+        'users',
         {
+          name: clientData.name,
           email: clientData.email,
           password: clientData.password
         },
         { validateStatus: () => true }
       )
 
-      if (status === 200) {
+      if (status === 200 || status === 201) {
         toast.update(loadingToastId, {
-          render: 'Usuário logado com sucesso!',
+          render: 'Usuário Cadastrado com Sucesso!',
           type: 'success',
           autoClose: true,
           isLoading: false
         })
-        putUserData(data)
-        setInterval(() => {
-          history.push('/')
-        }, 1000)
-      } else if (status === 401) {
+      } else if (status === 409) {
         toast.update(loadingToastId, {
-          render: 'Verifique o email e senha!',
+          render: 'Email já cadastrado!',
           type: 'error',
           autoClose: true,
           isLoading: false
@@ -94,13 +92,22 @@ export function Login() {
 
   return (
     <Container>
-      <LoginImage src={LoginImg} alt="Burguers" />
+      <RegisterImage src={RegisterImg} alt="Burguers" />
       <ContainerItens>
         <img src={Logo} />
 
         <FormDiv>
-          <h1>Login</h1>
+          <h1>Register</h1>
+
           <form noValidate onSubmit={handleSubmit(onSubmit)}>
+            <Label>Nome</Label>
+            <Input
+              type="text"
+              {...register('name')}
+              error={errors.name?.message}
+            />
+            <ErrorMessage>{errors.name?.message}</ErrorMessage>
+
             <Label>Email</Label>
             <Input
               type="email"
@@ -108,6 +115,7 @@ export function Login() {
               error={errors.email?.message}
             />
             <ErrorMessage>{errors.email?.message}</ErrorMessage>
+
             <Label>Senha</Label>
             <Input
               type="password"
@@ -116,13 +124,21 @@ export function Login() {
             />
             <ErrorMessage>{errors.password?.message}</ErrorMessage>
 
-            <Button $type="submit">Login</Button>
+            <Label>Confirme sua Senha</Label>
+            <Input
+              type="password"
+              {...register('confirmpassword')}
+              error={errors.confirmpassword?.message}
+            />
+            <ErrorMessage>{errors.confirmpassword?.message}</ErrorMessage>
+
+            <Button $type="submit">Register</Button>
           </form>
-          <SignUpLink>
-            <Link style={{ color: 'white' }} to="/cadastro">
-              Cadastre-se
+          <LoginLink>
+            <Link style={{ color: 'white' }} to="/login">
+              Login
             </Link>
-          </SignUpLink>
+          </LoginLink>
         </FormDiv>
       </ContainerItens>
     </Container>
