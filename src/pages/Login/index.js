@@ -71,6 +71,7 @@ export function Login() {
         putUserData(data)
         setInterval(() => {
           history.push('/')
+          history.go(0)
         }, 1000)
       } else if (status === 401) {
         toast.update(loadingToastId, {
