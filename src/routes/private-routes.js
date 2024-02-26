@@ -2,6 +2,8 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import { Redirect, Route } from 'react-router-dom'
 
+import { Header } from '../components'
+
 function PrivateRoute({ component, ...rest }) {
   const user = localStorage.getItem('codeburguer:userData')
 
@@ -9,7 +11,12 @@ function PrivateRoute({ component, ...rest }) {
     return <Redirect to="/login" />
   }
 
-  return <Route {...rest} component={component} />
+  return (
+    <>
+      <Header />
+      <Route {...rest} component={component} />
+    </>
+  )
 }
 
 export default PrivateRoute
