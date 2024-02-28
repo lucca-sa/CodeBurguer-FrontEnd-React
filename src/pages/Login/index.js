@@ -68,9 +68,16 @@ export function Login() {
           autoClose: true,
           isLoading: false
         })
+
         putUserData(data)
+
         setInterval(() => {
-          history.push('/')
+          if (data.admin) {
+            history.push('/pedidos')
+          } else {
+            history.push('/')
+          }
+
           history.go(0)
         }, 1000)
       } else if (status === 401) {

@@ -3,6 +3,7 @@ import { toast } from 'react-toastify'
 
 import { useCart } from '../../hooks/CartContext'
 import ApiService from '../../services/apiService'
+import Fee from '../../utils/deliveryFee'
 import formatCurrency from '../../utils/formatCurrency'
 import { Button } from '../Button'
 import { Container } from './styles'
@@ -10,7 +11,7 @@ import { Container } from './styles'
 export function CartResume() {
   const [cartPrice, setCartPrice] = useState(0)
   const [finalPrice, setFinalPrice] = useState(0)
-  const [deliveryFee] = useState(5)
+  const [deliveryFee] = useState(Fee)
 
   const { cartProducts } = useCart()
 
