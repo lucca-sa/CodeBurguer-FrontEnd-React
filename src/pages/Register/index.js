@@ -1,7 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import * as yup from 'yup'
 
@@ -39,6 +39,7 @@ const schema = yup
   .required()
 
 export function Register() {
+  const { push } = useHistory()
   const {
     register,
     handleSubmit,
@@ -70,6 +71,7 @@ export function Register() {
           autoClose: true,
           isLoading: false
         })
+        push('/login')
       } else if (status === 409) {
         toast.update(loadingToastId, {
           render: 'Email já cadastrado!',
